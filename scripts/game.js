@@ -1,7 +1,7 @@
 'use strict'
 
 function Game(canvas_id) {
-    const deltaTime = 30;
+    const deltaTime = 1000 / 30;
     
     let canvas = document.getElementById(canvas_id);
     let context = canvas.getContext("2d", {
@@ -22,10 +22,9 @@ function Game(canvas_id) {
     });
 
     window.addEventListener('keypress', function(event) {
-        let position = [event.clientX, event.clientY];
         listeners.filter(listener => listener.pressSpace != undefined).forEach(listener => {
             if (event.key == ' ' || event.code == "Space" || e.keyCode == 32) 
-                listener.pressSpace();
+                listener.pressSpace(entities[2]);
         });
     });
 
@@ -49,6 +48,7 @@ function Game(canvas_id) {
 
     function eventLoop() {
         update();
+        checkCollision();
         render();
         setTimeout(eventLoop, deltaTime);
     }

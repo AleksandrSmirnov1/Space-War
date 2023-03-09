@@ -1,9 +1,27 @@
+'use strict'
+
 function vector_to_angle(vector) {
     return Math.atan2(vector[1], vector[0]);
 }
 
-function negate_vector(vector) {
-    return [-vector[0], -vector[1]];
+function angle_to_vector(angle) {
+    return [Math.cos(angle), Math.sin(angle)];
+}
+
+function sum_vectors(vec, ...vs) {
+    vs.forEach(v => {
+        vec[0] += v[0];
+        vec[1] += v[1];
+    });
+    return vec;
+}
+
+function factor_vector(vec, factor) {
+    return [vec[0] * factor, vec[1] * factor];
+}
+
+function distance(point1, point2) {
+    return Math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 }
 
 function rotate_point(point, angle, center) {
@@ -11,10 +29,6 @@ function rotate_point(point, angle, center) {
     let s = Math.sin(angle);
 
     return [c * (point[0] - center[0]) - s * (point[1] - center[1]) + center[0], s * (point[0] - center[0]) + c * (point[1] - center[1]) + center[1]];
-}
-
-function randomBound(min, max) {
-    return Math.random() * (max - min) + min;
 }
 
 function snap_with_direction(point, direction, width, height) {
@@ -34,4 +48,8 @@ function snap_with_direction(point, direction, width, height) {
             point[1] = 0;
         }
     }
+}
+
+function randomBound(min, max) {
+    return Math.random() * (max - min) + min;
 }

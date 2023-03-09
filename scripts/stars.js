@@ -10,7 +10,7 @@ function Stars(stars_count) {
         this.height = canvas_height;
 
         for (let i = 0; i < stars_count; ++i) {
-            this.stars.push( [(Math.random() * canvas_width), (Math.random() * canvas_height), Math.random()])
+            this.stars.push( [(Math.random() * canvas_width), (Math.random() * canvas_height), Math.random() + 0.1])
         }
     }
 
@@ -26,7 +26,7 @@ function Stars(stars_count) {
             star[0] += velocity[0] * star[2] * (deltaTime * 0.001);
             star[1] += velocity[1] * star[2] * (deltaTime * 0.001);
 
-            if (star[0] < 0|| star[0] >= this.width || star[1] < 0 || star[1] >= this.height) {
+            if (star[0] < 0 || star[0] >= this.width || star[1] < 0 || star[1] >= this.height) {
                 star[0] = Math.random() * this.width;
                 star[1] = Math.random() * this.height;
                 star[2] = Math.random();

@@ -35,17 +35,17 @@ function Ship() {
     };
 
     this.onMouseMove = function(position) {
-        let direction = [position[0] - this.screenCenter[0], position[1] - this.screenCenter[1]];
+        this.speed = [position[0] - this.screenCenter[0], position[1] - this.screenCenter[1]];
 
         let old_angle = this.angle;
-        this.angle = vector_to_angle(direction);
+        this.angle = vector_to_angle(this.speed);
 
         for (let i = 0; i < this.points.length; ++i) {
             this.points[i] = rotate_point(this.points[i], this.angle - old_angle , this.screenCenter);
         }
     }
 
-    this.pressSpace = function() {
-        console.log(this.angle);
+    this.pressSpace = function(projectile) {
+        projectile.addProjectile(this.angle, this.points[0], this.speed);
     }
 }
