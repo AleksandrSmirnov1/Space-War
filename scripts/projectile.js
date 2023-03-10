@@ -1,11 +1,15 @@
 'use strict'
 
-
 function Projectile() {
     this.projectiles = [];
 
     this.addProjectile = function(angle, gun, speed) {
-        this.projectiles.push({angle: angle, point: Object.assign({}, gun), speed: speed});
+        this.projectiles.push({
+            angle: angle, 
+            point: Object.assign({}, gun),
+            end: sum_vectors(factor_vector(angle_to_vector(angle), 15), Object.assign({}, gun),),
+            speed: sum_vectors(Object.assign({}, speed), factor_vector(angle_to_vector(angle), 1000)),
+        });
     }
     
     this.render = function(context) {
@@ -13,18 +17,18 @@ function Projectile() {
         this.projectiles.forEach(projectile => {
             context.beginPath();
             context.moveTo(projectile.point[0], projectile.point[1]);
-            let vector_to = sum_vectors(factor_vector(angle_to_vector(projectile.angle), 15), projectile.point);
-            context.lineTo(vector_to[0], vector_to[1]);
+            context.lineTo(projectile.end[0], projectile.end[1]);
             context.closePath();
             context.strokeStyle = "#cc3333";
             context.stroke(); 
         });
     }
-
+    // TODO dequeue
     this.update = function(deltaTime) {
         this.projectiles.forEach(projectile => {
-            projectile.point[0] += (factor_vector(angle_to_vector(projectile.angle), 150)[0] + projectile.speed[0] * 0.5) * (deltaTime * 0.001);
-            projectile.point[1] += (factor_vector(angle_to_vector(projectile.angle), 150)[1] + projectile.speed[1] * 0.5) * (deltaTime * 0.001);
+            const dxdy = [(-ship.speed[0] + projectile.speed[0]) * (deltaTime * 0.001), (-ship.speed[1] + projectile.speed[1]) * (deltaTime * 0.001)];
+            sum_vectors(projectile.point, dxdy);
+            sum_vectors(projectile.end, dxdy);
 
             if (projectile.point[0] < 0 || projectile.point[0] >= this.width || projectile.point[1] < 0 || projectile.point[1] >= this.height) {
                 this.projectiles.shift();

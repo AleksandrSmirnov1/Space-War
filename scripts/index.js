@@ -1,9 +1,9 @@
 'use strict'
 
 let game = new Game('spacewar');
-let stars = new Stars(1000);
-let projectiles = new Projectile();
-let ship = new Ship(projectiles);
+let stars = new Stars(750);
+let ship = new Ship();
+let projectiles = new Projectile(ship);
 let asteroids = new Asteroids(ship);
 
 game.addEntity(stars);

@@ -1,8 +1,8 @@
 'use strict'
 
 function Game(canvas_id) {
-    const deltaTime = 1000 / 30;
-    
+    const deltaTime = 1000 / 60;
+
     let canvas = document.getElementById(canvas_id);
     let context = canvas.getContext("2d", {
         alpha: false,
@@ -33,6 +33,13 @@ function Game(canvas_id) {
         context.fillRect(0, 0, canvas.width, canvas.height);
     }
 
+    function checkCollision() {
+        let status = true;
+        checkCollisionAsteroids(entities[2], entities[3]);
+        status = checkCollisionShip(entities[1], entities[3]);
+        return status;
+    }
+
     function update() {
         entities.forEach(entity => {
             entity.update(deltaTime);
@@ -48,8 +55,10 @@ function Game(canvas_id) {
 
     function eventLoop() {
         update();
-        checkCollision();
         render();
+        if (!checkCollision()) {
+            return;
+        }
         setTimeout(eventLoop, deltaTime);
     }
 
